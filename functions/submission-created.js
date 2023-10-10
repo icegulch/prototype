@@ -2,7 +2,6 @@ exports.handler = async (event) => {
   try {
     // Extract form submission data
     const submissionData = JSON.parse(event.body).payload.data;
-    console.log(submissionData);
 
     // Prepare the simplified data
     const simplifiedData = {
