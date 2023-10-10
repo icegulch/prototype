@@ -7,9 +7,9 @@ exports.handler = async (event) => {
     const simplifiedData = {
       id: submissionData.id,
       created_at: submissionData.created_at,
-      url: submissionData.url,
-      title: submissionData.title,
-      message: submissionData.message,
+      url: submissionData.data.url,
+      title: submissionData.data.title,
+      message: submissionData.data.message,
     };
 
     // GitHub repository information
