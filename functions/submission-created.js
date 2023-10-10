@@ -1,7 +1,4 @@
-
-const fetch = require('node-fetch');
-
-exports.handler = async event => {
+exports.handler = async (event) => {
   try {
     // Extract form submission data
     const submissionData = JSON.parse(event.body).payload.data;
@@ -20,11 +17,12 @@ exports.handler = async event => {
     const repoName = 'prototype';
     const filePath = 'src/_data/posts.json';
 
-    // GitHub Personal Access Token with appropriate permissions
-    const githubToken = `${GITHUB_TOKEN}`;
+    // Fetch the GitHub PAT from Netlify environment variables
+    const githubToken = process.env.GITHUB_TOKEN;
 
     // Fetch the existing posts.json content
-    const response = await fetch(
+    const fetch = await import('node-fetch');
+    const response = await fetch.default(
       `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`,
       {
         method: 'GET',
@@ -54,7 +52,7 @@ exports.handler = async event => {
     ).toString('base64');
 
     // Update the posts.json file on GitHub
-    const updateResponse = await fetch(
+    const updateResponse = await fetch.default(
       `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`,
       {
         method: 'PUT',
