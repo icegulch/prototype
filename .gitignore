@@ -1,0 +1,28 @@
+# build artefacts
+/public
+
+# dev stuff
+_datacache
+.cache
+.vscode/
+
+# secrets and errors
+.env
+.log
+
+# macOS related files
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# temp stuff
+_tmp/
+
+# node modules
+node_modules/
+
+#npm stuff
+package-lock.json
+
+# Local Netlify folder
+.netlify
