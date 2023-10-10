@@ -2,14 +2,15 @@ exports.handler = async (event) => {
   try {
     // Extract form submission data
     const submissionData = JSON.parse(event.body).payload.data;
+    console.log(submissionData);
 
     // Prepare the simplified data
     const simplifiedData = {
       id: submissionData.id,
       created_at: submissionData.created_at,
-      url: submissionData.data.url,
-      title: submissionData.data.title,
-      message: submissionData.data.message,
+      url: submissionData.url,
+      title: submissionData.title,
+      message: submissionData.message,
     };
 
     // GitHub repository information
