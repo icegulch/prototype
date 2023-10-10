@@ -1,6 +1,4 @@
-import fetch from 'node-fetch';
-
-exports.handler = async event => {
+exports.handler = async (event) => {
   try {
     // Extract form submission data
     const submissionData = JSON.parse(event.body).payload.data;
@@ -23,7 +21,8 @@ exports.handler = async event => {
     const githubToken = process.env.GITHUB_TOKEN;
 
     // Fetch the existing posts.json content
-    const response = await fetch(
+    const fetch = await import('node-fetch');
+    const response = await fetch.default(
       `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`,
       {
         method: 'GET',
@@ -53,7 +52,7 @@ exports.handler = async event => {
     ).toString('base64');
 
     // Update the posts.json file on GitHub
-    const updateResponse = await fetch(
+    const updateResponse = await fetch.default(
       `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`,
       {
         method: 'PUT',
@@ -77,7 +76,6 @@ exports.handler = async event => {
       statusCode: 200,
       body: JSON.stringify({ message: 'Form submitted and posts.json updated' }),
     };
-    
   } catch (error) {
     return {
       statusCode: 500,
@@ -85,4 +83,3 @@ exports.handler = async event => {
     };
   }
 };
-
