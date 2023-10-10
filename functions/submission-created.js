@@ -2,20 +2,20 @@ const fetch = require('node-fetch');
 
 exports.handler = async event => {
   try {
-    // Extract form submission data directly
-    const { id, created_at, url, title, message } = JSON.parse(event.body).payload;
+    // Extract form submission data
+    const submissionData = JSON.parse(event.body).payload.data;
 
     // Prepare the simplified data
     const simplifiedData = {
-      id,
-      created_at,
-      url,
-      title,
-      message,
+      id: submissionData.id,
+      created_at: submissionData.created_at,
+      url: submissionData.url,
+      title: submissionData.title,
+      message: submissionData.message,
     };
 
-    // GitHub organization and repository information
-    const orgName = 'Cirrus-Guanli'; // Replace with your organization name
+    // GitHub repository information
+    const repoOwner = 'icegulch';
     const repoName = 'prototype';
     const filePath = 'posts.json';
 
@@ -24,7 +24,7 @@ exports.handler = async event => {
 
     // Fetch the existing posts.json content
     const response = await fetch(
-      `https://api.github.com/repos/${orgName}/${repoName}/contents/${filePath}`,
+      `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`,
       {
         method: 'GET',
         headers: {
