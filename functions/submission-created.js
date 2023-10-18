@@ -10,7 +10,7 @@ exports.handler = async (event) => {
     const message = submissionData.data.message;
     const markdownContent = `---
 id: ${id}
-date: ${timestamp}
+created_at: ${timestamp}
 author: ${author}
 ---
 
@@ -22,8 +22,9 @@ ${message}
     const repoName = "prototype";
     const folderPath = "src/content/posts/";
 
+    const modifiedTimestamp = timestamp.replace(/:/g, "");
     // Define a unique filename based on the submission data
-    const filename = `${timestamp}-${author}.md`;
+    const filename = `${modifiedTimestamp}-${author}.md`;
 
     // Encode the Markdown content
     const content = Buffer.from(markdownContent).toString("base64");
