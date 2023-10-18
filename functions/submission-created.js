@@ -2,7 +2,6 @@ exports.handler = async (event) => {
   try {
     // Extract form submission data
     const submissionData = JSON.parse(event.body).payload;
-    console.log(submissionData);
     // Prepare the data for the Markdown file
     const id = submissionData.id
     const timestamp = submissionData.created_at;
@@ -22,7 +21,7 @@ ${message}
     const repoName = "prototype";
     const folderPath = "src/content/posts/";
 
-    const modifiedTimestamp = timestamp.replace(/:/g, "");
+    const modifiedTimestamp = timestamp.replace(/[:.]/g, "-");
     // Define a unique filename based on the submission data
     const filename = `${modifiedTimestamp}-${author}.md`;
 
