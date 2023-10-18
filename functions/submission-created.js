@@ -18,21 +18,18 @@ ${message}
 `;
 
     // Log the key variables
-    console.log("ID:", id);
-    console.log("Timestamp:", timestamp);
-    console.log("Author:", author);
-    console.log("Message:", markdownContent);
-
+    
     // GitHub repository information
     const repoOwner = "icegulch";
     const repoName = "prototype";
     const folderPath = "src/content/posts/";
     const githubToken = process.env.GITHUB_TOKEN;
-
+    
     const modifiedTimestamp = timestamp.replace(/[:.]/g, "-");
     // Define a unique filename based on the submission data
     const filename = `${modifiedTimestamp}-${author}.md`;
-
+    console.log("Filename:", filename);
+    
     // Encode the Markdown content
     const content = Buffer.from(markdownContent).toString("base64");
 
