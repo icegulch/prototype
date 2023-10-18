@@ -4,28 +4,17 @@ layout: "base.liquid"
 ---
 
 <form
-  name="forbill"
+  name="dave"
   method="POST" netlify-honeypot="bot-field" data-netlify="true" action="/post/thank-you/">
   <p class="sr-only">
     <label>Don’t fill this out if you’re human: <input name="bot-field" /></label>
   </p>
-  <div>
-    <label for="url" style="display:block">
-      Document URL
-    </label>
-    <input id="url" type="text" name="url" class="form-control" required>
-  </div>
-  <div>
-    <label for="title" style="display:block">
-      Document Title
-    </label>
-    <input id="title" type="text" name="title" class="form-control" required>
-  </div>
+
   <div>
     <label
       for="message"
       style="display:block">
-      (Optional) Provide some context for this document
+      What's on your mind, Dave?
     </label>
   </div>
   <textarea

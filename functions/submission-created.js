@@ -3,78 +3,57 @@ exports.handler = async (event) => {
     // Extract form submission data
     const submissionData = JSON.parse(event.body).payload;
 
-    // Prepare the simplified data
-    const simplifiedData = {
-      id: submissionData.id,
-      created_at: submissionData.created_at,
-      url: submissionData.data.url,
-      title: submissionData.data.title,
-      message: submissionData.data.message,
-    };
+    // Prepare the data for the Markdown file
+    const id = submissionData.id
+    const timestamp = submissionData.created_at;
+    const author = submissionData.form_name;
+    const message = submissionData.data.message;
+    const markdownContent = `---
+id: ${id}
+date: ${timestamp}
+author: ${author}
+---
+
+${message}
+`;
 
     // GitHub repository information
-    const repoOwner = 'icegulch';
-    const repoName = 'prototype';
-    const filePath = 'src/_data/posts.json';
+    const repoOwner = "icegulch";
+    const repoName = "prototype";
+    const folderPath = "src/content/posts/";
 
-    // Fetch the GitHub PAT from Netlify environment variables
-    const githubToken = process.env.GITHUB_TOKEN;
+    // Define a unique filename based on the submission data
+    const filename = `${timestamp}-${author}.md`;
 
-    // Fetch the existing posts.json content
-    const fetch = await import('node-fetch');
-    const response = await fetch.default(
-      `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`,
-      {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${githubToken}`,
-        },
-      }
-    );
+    // Encode the Markdown content
+    const content = Buffer.from(markdownContent).toString("base64");
 
-    if (!response.ok) {
-      throw new Error('Failed to fetch existing content');
-    }
-
-    const existingContent = await response.json();
-
-    // Decode the existing content and add the new data
-    const decodedContent = JSON.parse(
-      Buffer.from(existingContent.content, 'base64').toString('utf-8')
-    );
-
-    decodedContent.push(simplifiedData);
-
-    // Encode the modified content back to base64
-    const updatedContent = Buffer.from(
-      JSON.stringify(decodedContent, null, 2),
-      'utf-8'
-    ).toString('base64');
-
-    // Update the posts.json file on GitHub
+    // Update the individual Markdown file on GitHub
     const updateResponse = await fetch.default(
-      `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`,
+      `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${folderPath}${filename}`,
       {
-        method: 'PUT',
+        method: "PUT",
         headers: {
           Authorization: `Bearer ${githubToken}`,
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          message: 'Update posts.json',
-          content: updatedContent,
-          sha: existingContent.sha,
+          message: `Update ${filename}`,
+          content: content,
+          sha: null, // Pass null to create a new file
         }),
       }
     );
 
     if (!updateResponse.ok) {
-      throw new Error('Failed to update content on GitHub');
+      throw new Error("Failed to update content on GitHub");
     }
 
     return {
       statusCode: 200,
-      body: JSON.stringify({ message: 'Form submitted and posts.json updated' }),
+      body: JSON.stringify({
+        message: "Form submitted and individual Markdown file updated",
+      }),
     };
   } catch (error) {
     return {
