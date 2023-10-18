@@ -7,6 +7,10 @@ exports.handler = async (event) => {
     const timestamp = submissionData.created_at;
     const author = submissionData.form_name;
     const message = submissionData.data.message;
+    console.log('rawData:', submissionData);
+    console.log('created_at:', author);
+    console.log('timestamp:', timestamp);
+    console.log('message', message);
     const markdownContent = `---
 id: ${id}
 created_at: ${timestamp}
