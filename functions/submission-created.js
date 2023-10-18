@@ -2,7 +2,7 @@ exports.handler = async (event) => {
   try {
     // Extract form submission data
     const submissionData = JSON.parse(event.body).payload;
-
+    console.log(submissionData);
     // Prepare the data for the Markdown file
     const id = submissionData.id
     const timestamp = submissionData.created_at;
