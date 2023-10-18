@@ -28,8 +28,6 @@ ${message}
     const modifiedTimestamp = timestamp.replace(/[:.]/g, "-");
     // Define a unique filename based on the submission data
     const filename = `${modifiedTimestamp}-${author}.md`;
-    console.log("Filename:", filename);
-    console.log("Author:", author);
     
     // Encode the Markdown content
     const content = Buffer.from(markdownContent).toString("base64");
@@ -44,7 +42,7 @@ ${message}
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          message: `Update ${filename}`,
+          message: `Adding new post ${filename}`,
           content: content,
           sha: null, // Pass null to create a new file
         }),
