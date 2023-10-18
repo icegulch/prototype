@@ -1,8 +1,9 @@
 exports.handler = async (event) => {
   try {
+    const fetch = require('node-fetch');
+    
     // Extract form submission data
     const submissionData = JSON.parse(event.body).payload;
-    // Prepare the data for the Markdown file
     const id = submissionData.id;
     const timestamp = submissionData.created_at;
     const author = submissionData.form_name;
@@ -17,8 +18,6 @@ author: ${author}
 ${message}
 `;
 
-    // Log the key variables
-    
     // GitHub repository information
     const repoOwner = "icegulch";
     const repoName = "prototype";
@@ -26,14 +25,13 @@ ${message}
     const githubToken = process.env.GITHUB_TOKEN;
     
     const modifiedTimestamp = timestamp.replace(/[:.]/g, "-");
-    // Define a unique filename based on the submission data
     const filename = `${modifiedTimestamp}-${author}.md`;
     
     // Encode the Markdown content
     const content = Buffer.from(markdownContent).toString("base64");
 
     // Update the individual Markdown file on GitHub
-    const updateResponse = await fetch.default(
+    const updateResponse = await fetch(
       `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${folderPath}/${filename}`,
       {
         method: "PUT",
