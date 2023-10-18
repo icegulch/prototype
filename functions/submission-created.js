@@ -29,13 +29,14 @@ ${message}
     // Define a unique filename based on the submission data
     const filename = `${modifiedTimestamp}-${author}.md`;
     console.log("Filename:", filename);
+    console.log("Author:", author);
     
     // Encode the Markdown content
     const content = Buffer.from(markdownContent).toString("base64");
 
     // Update the individual Markdown file on GitHub
     const updateResponse = await fetch.default(
-      `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${folderPath}${filename}`,
+      `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${folderPath}/${filename}`,
       {
         method: "PUT",
         headers: {
