@@ -3,7 +3,7 @@ exports.handler = async (event) => {
     // Extract form submission data
     const submissionData = JSON.parse(event.body).payload;
     // Prepare the data for the Markdown file
-    const id = submissionData.id
+    const id = submissionData.id;
     const timestamp = submissionData.created_at;
     const author = submissionData.form_name;
     const message = submissionData.data.message;
@@ -16,6 +16,12 @@ author: ${author}
 
 ${message}
 `;
+
+    // Log the key variables
+    console.log("ID:", id);
+    console.log("Timestamp:", timestamp);
+    console.log("Author:", author);
+    console.log("Message:", markdownContent);
 
     // GitHub repository information
     const repoOwner = "icegulch";
