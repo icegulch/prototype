@@ -10,7 +10,7 @@ layout: base.liquid
 {% endif %}
     <li id="{{ post.data.id }}">
       <time pubdate="{{ post.created_at }}" style="font-size:0.85rem;text-transform:uppercase;letter-spacing:0.025rem;">
-        {{ post.data.author }} @ {{ post.data.created_at | date: "%a, %b %-d, %Y @ %H:%M" }} UTC
+        {{ post.data.author }} on {{ post.data.created_at | date: "%a, %b %-d '%y @ %H:%M" }} UTC
       </time>
       {% if post.content %}
       <div class="message">
