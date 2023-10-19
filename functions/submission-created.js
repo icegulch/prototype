@@ -12,7 +12,7 @@ exports.handler = async (event) => {
       message: submissionData.data.message,
     };
 
-
+    console.log('submmission data: ', submissionData);
 // GitHub repository information
     const repoOwner = "icegulch";
     const repoName = "prototype";
