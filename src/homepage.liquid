@@ -8,7 +8,7 @@ permalink: "/{% if pagination.pageNumber > 0 %}page-{{ pagination.pageNumber | p
 ---
 
 {% assign thisDay = pagination.items.first %}
-{% assign thisPagesPosts = collections.posts | where: "data.just_the_date", thisDay %}
+{% assign thisPagesPosts = collections.posts | where: "data.just_the_date", thisDay | sort: "created_at" | reverse %}
 {% for post in thisPagesPosts %}
 {% if forloop.first %}
 <ul style="list-style: none;padding-left:0;display:grid;gap:max(5vh,3rem)">
