@@ -30,6 +30,8 @@ ${message}
     // Encode the Markdown content
     const content = Buffer.from(markdownContent).toString("base64");
 
+    console.log('fucking cunt', content);
+
     // Update the individual Markdown file on GitHub
     const updateResponse = await fetch(
       `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${folderPath}/${filename}`,
