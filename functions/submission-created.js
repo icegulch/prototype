@@ -1,7 +1,6 @@
 exports.handler = async (event) => {
   try {
-    const fetch = require('node-fetch');
-    
+
     // Extract form submission data
     const submissionData = JSON.parse(event.body).payload;
     const id = submissionData.id;
@@ -10,7 +9,7 @@ exports.handler = async (event) => {
     const message = submissionData.data.message;
     console.log('fucking shit1', author);
 
-    const markdownContent = `---
+        const markdownContent = `---
 id: ${id}
 created_at: ${timestamp}
 author: ${author}
@@ -21,7 +20,6 @@ ${message}
 
 // GitHub repository information
     const repoOwner = "icegulch";
-    console.log('fucking shit2', repoOwner);
     const repoName = "prototype";
     const folderPath = "src/content/posts/";
     const githubToken = process.env.GITHUB_TOKEN;
@@ -32,9 +30,9 @@ ${message}
     // Encode the Markdown content
     const content = Buffer.from(markdownContent).toString("base64");
 
-    // Update the individual Markdown file on GitHub
-    const updateResponse = await fetch(
-      `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${folderPath}/${filename}`,
+    const fetch = await import('node-fetch');
+    const addContent = await fetch.default(
+      `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${folderPath}/${filePath}`,
       {
         method: "PUT",
         headers: {
@@ -49,15 +47,13 @@ ${message}
       }
     );
 
-    if (!updateResponse.ok) {
-      throw new Error("Failed to update content on GitHub");
-    }
+    if (!addContent.ok) {
+      throw new Error("Failed to add content on GitHub");
+    } 
 
     return {
       statusCode: 200,
-      body: JSON.stringify({
-        message: "Form submitted and individual Markdown file updated",
-      }),
+      body: JSON.stringify({ message: 'Form submitted and posts.json updated' }),
     };
   } catch (error) {
     return {
