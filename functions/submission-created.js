@@ -7,9 +7,8 @@ exports.handler = async (event) => {
     const timestamp = submissionData.created_at;
     const author = submissionData.form_name;
     const message = submissionData.data.message;
-    console.log('fucking shit1', author);
 
-        const markdownContent = `---
+const markdownContent = `---
 id: ${id}
 created_at: ${timestamp}
 author: ${author}
@@ -18,8 +17,10 @@ author: ${author}
 ${message}
 `;
 
+
 // GitHub repository information
     const repoOwner = "icegulch";
+    console.log('fucking shit1:', repoOwner);
     const repoName = "prototype";
     const folderPath = "src/content/posts/";
     const githubToken = process.env.GITHUB_TOKEN;
