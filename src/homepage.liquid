@@ -1,9 +1,11 @@
 ---
-permalink: /
 layout: base.liquid
+pagination: 
+  data: dayPagination
+  size: 1
+  alias: posts
+permalink: "/{% if pagination.pageNumber > 0 %}page-{{ pagination.pageNumber | plus: 1 }}/{% endif %}index.html"
 ---
-
-<pre>{{ dayPagination | dump }}</pre>
 
 {% for post in posts %}
   <time>
