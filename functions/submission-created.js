@@ -20,10 +20,10 @@ ${message}
 
 // GitHub repository information
     const repoOwner = "icegulch";
-    console.log('fucking shit1:', repoOwner);
     const repoName = "prototype";
     const folderPath = "src/content/posts/";
     const githubToken = process.env.GITHUB_TOKEN;
+    console.log('fucking shit1:', githubToken);
     
     const modifiedTimestamp = timestamp.replace(/[:.]/g, "-");
     const filename = `${modifiedTimestamp}-${author}.md`;
