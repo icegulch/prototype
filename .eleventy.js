@@ -2,7 +2,10 @@ const util = require("util");
 
 module.exports = function (eleventyConfig) {
 
-  // configure markdown-it (and set it as your markdown processor for consistency)
+  eleventyConfig.addFilter("dump", (obj) => {
+    return util.inspect(obj, { showHidden: false, depth: null, colors: false });
+  });
+  
   const md = require('markdown-it')({
     html: true,
     breaks: true,

@@ -3,6 +3,8 @@ permalink: /
 layout: base.liquid
 ---
 
+<pre>{{ dayPagination | dump }}</pre>
+
 {% for post in posts %}
   <time>
     {{ post.created_at | date: "%a, %b %-d '%y @ %H:%M" }}
