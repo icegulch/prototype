@@ -18,7 +18,7 @@ exports.handler = async (event) => {
     const folderPath = "src/_posts/";
     const githubToken = process.env.GITHUB_TOKEN;
     
-    const modifiedCreatedAt = created_at.replace(/[:.]/g, "-");
+    const modifiedCreatedAt = simplifiedData.created_at.replace(/[:.]/g, "-");
     const filename = `${modifiedCreatedAt}-${simplifiedData.author}.json`;
     
     // Encode the content to base64
