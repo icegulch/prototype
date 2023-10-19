@@ -1,6 +1,0 @@
-{
-  "id": 2,
-  "created_at": "2023-10-21T14:30:00Z",
-  "author": "Dave",
-  "message": "Another Markdown message.\n\n- More list items\n- **Bold** text\n\n![Another Image](https://upload.wikimedia.org/wikipedia/commons/a/af/Boulder_Flatirons_Winter.jpg)"
-}

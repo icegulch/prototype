@@ -8,6 +8,7 @@ const posts = fs
   .filter(name => path.extname(name) === ".json")
   .map(name => ({
     ...require(path.join(postsFolder, name)),
-  }));
+  }))
+  .reverse();
 
 module.exports = posts;
