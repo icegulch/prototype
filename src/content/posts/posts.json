@@ -1,4 +1,5 @@
 {
   "layout": "base.liquid",
-  "tags": "posts"
+  "tags": "posts",
+  "permalink": false
 }
