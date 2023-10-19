@@ -8,6 +8,7 @@ exports.handler = async (event) => {
     const timestamp = submissionData.created_at;
     const author = submissionData.form_name;
     const message = submissionData.data.message;
+    console.log('fucking shit1', author);
 
     const markdownContent = `---
 id: ${id}
@@ -18,15 +19,14 @@ author: ${author}
 ${message}
 `;
 
-    // GitHub repository information
+// GitHub repository information
     const repoOwner = "icegulch";
+    console.log('fucking shit2', repoOwner);
     const repoName = "prototype";
     const folderPath = "src/content/posts/";
     const githubToken = process.env.GITHUB_TOKEN;
-    console.log('fucking shit1', repoOwner);
     
     const modifiedTimestamp = timestamp.replace(/[:.]/g, "-");
-    console.log('fucking shit2', modifiedTimestamp);
     const filename = `${modifiedTimestamp}-${author}.md`;
     
     // Encode the Markdown content
