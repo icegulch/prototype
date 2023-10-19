@@ -29,12 +29,12 @@ ${message}
     
     // Encode the Markdown content
     const content = Buffer.from(markdownContent).toString("base64");
-    const githubAPI = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${folderPath}/${filePath}`;
+    const githubAPI = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${folderPath}/${filename}`;
     console.log('fucking tweat: ', githubAPI);
 
     const fetch = await import('node-fetch');
     const addContent = await fetch.default(
-      `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${folderPath}/${filePath}`,
+      `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${folderPath}/${filename}`,
       {
         method: "PUT",
         headers: {
