@@ -1,9 +1,10 @@
 const util = require("util");
+const { format, startOfDay } = require('date-fns');
 
 module.exports = function (eleventyConfig) {
 
-  eleventyConfig.addFilter("dump", (obj) => {
-    return util.inspect(obj, { showHidden: false, depth: null, colors: false });
+  eleventyConfig.addFilter('console', function(value) {
+      return util.inspect(value);
   });
   
   const md = require('markdown-it')({
@@ -25,6 +26,36 @@ module.exports = function (eleventyConfig) {
     });
 
     return modifiedContent;
+  });
+
+  eleventyConfig.addCollection('dayPagination', function(collection) {
+    const posts = collection.getFilteredByGlob('./src/content/posts/*.md'); // Adjust the glob pattern to match your file structure
+
+    // Group posts by day
+    const dayPagination = {};
+
+    posts.forEach((post) => {
+      const postDate = startOfDay(new Date(post.data.created_at));
+      const day = format(postDate, 'yyyy-MM-dd');
+
+      if (!dayPagination[day]) {
+        dayPagination[day] = [];
+      }
+
+      dayPagination[day].push(post);
+    });
+
+    // Sort the dayPagination keys (days) in descending order
+    const sortedDays = Object.keys(dayPagination).sort((a, b) => new Date(b) - new Date(a));
+
+    const sortedDayPagination = {};
+
+    // Reconstruct the sorted dayPagination
+    sortedDays.forEach((day) => {
+      sortedDayPagination[day] = dayPagination[day];
+    });
+
+    return sortedDayPagination;
   });
 
   return {

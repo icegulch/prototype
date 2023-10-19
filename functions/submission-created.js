@@ -3,48 +3,34 @@ exports.handler = async (event) => {
 
     // Extract form submission data
     const submissionData = JSON.parse(event.body).payload;
+    const id = submissionData.id;
+    const timestamp = submissionData.created_at;
+    const author = submissionData.form_name;
+    const message = submissionData.data.message;
 
-    // Prepare the simplified data
-    const simplifiedData = {
-      id: submissionData.id,
-      created_at: submissionData.created_at,
-      author: submissionData.form_name,
-      message: submissionData.data.message,
-    };
+const markdownContent = `---
+id: ${id}
+created_at: ${timestamp}
+author: ${author}
+---
 
-    // GitHub repository information
+${message}
+`;
+
+
+// GitHub repository information
     const repoOwner = "icegulch";
     const repoName = "prototype";
-    const folderPath = "src/_posts/";
+    const folderPath = "src/content/posts/";
     const githubToken = process.env.GITHUB_TOKEN;
     
-    const modifiedCreatedAt = simplifiedData.created_at.replace(/[:.]/g, "-");
-    const filename = `${modifiedCreatedAt}-${simplifiedData.author}.json`;
+    const modifiedTimestamp = timestamp.replace(/[:.]/g, "-");
+    const filename = `${modifiedTimestamp}-${author}.md`;
     
-    // Encode the content to base64
-    const newContent = Buffer.from(
-      JSON.stringify(simplifiedData, null, 2),
-      'utf-8'
-    ).toString('base64');
-
-
+    // Encode the Markdown content
+    const content = Buffer.from(markdownContent).toString("base64");
 
     const fetch = await import('node-fetch');
-    // const updateResponse = await fetch.default(
-    //   `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`,
-    //   {
-    //     method: 'PUT',
-    //     headers: {
-    //       Authorization: `Bearer ${githubToken}`,
-    //       'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify({
-    //       message: 'Update posts.json',
-    //       content: updatedContent,
-    //       sha: existingContent.sha,
-    //     }),
-    //   }
-    // );
     const addContent = await fetch.default(
       `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${folderPath}${filename}`,
       {
@@ -55,7 +41,7 @@ exports.handler = async (event) => {
         },
         body: JSON.stringify({
           message: `Adding new post ${filename}`,
-          content: newContent,
+          content: content,
           sha: null, // Pass null to create a new file
         }),
       }
