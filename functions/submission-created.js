@@ -12,15 +12,14 @@ exports.handler = async (event) => {
       message: submissionData.data.message,
     };
 
-    console.log('submmission data: ', submissionData);
-// GitHub repository information
+    // GitHub repository information
     const repoOwner = "icegulch";
     const repoName = "prototype";
     const folderPath = "src/_posts/";
     const githubToken = process.env.GITHUB_TOKEN;
     
-    const modifiedTimestamp = timestamp.replace(/[:.]/g, "-");
-    const filename = `${modifiedTimestamp}-${author}.json`;
+    const modifiedCreatedAt = created_at.replace(/[:.]/g, "-");
+    const filename = `${modifiedCreatedAt}-${simplifiedData.author}.json`;
     
     // Encode the content to base64
     const newContent = Buffer.from(
@@ -29,7 +28,23 @@ exports.handler = async (event) => {
     ).toString('base64');
 
 
+
     const fetch = await import('node-fetch');
+    // const updateResponse = await fetch.default(
+    //   `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`,
+    //   {
+    //     method: 'PUT',
+    //     headers: {
+    //       Authorization: `Bearer ${githubToken}`,
+    //       'Content-Type': 'application/json',
+    //     },
+    //     body: JSON.stringify({
+    //       message: 'Update posts.json',
+    //       content: updatedContent,
+    //       sha: existingContent.sha,
+    //     }),
+    //   }
+    // );
     const addContent = await fetch.default(
       `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${folderPath}${filename}`,
       {
