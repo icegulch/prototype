@@ -14,8 +14,27 @@ module.exports = function (eleventyConfig) {
   });
 
   eleventyConfig.setLibrary('md', md);
-
   eleventyConfig.addFilter('markdownify', str => md.render(str));
+
+  eleventyConfig.addTransform('modifyMarkdownImages', (content, outputPath) => {
+    if (outputPath && outputPath.endsWith('.html')) {
+      // Define your Cloudinary prefix
+      const cloudinaryPrefix = 'https://res.clodinary.com/flagstafffrenzy/image/fetch/f_auto,c_limit,w_800,h_600/';
+
+      // Modify content using markdown-it to add the prefix to image URLs
+      content = md.render(content, {
+        replaceLink: function(link, env) {
+          // Check if the link is an image and modify it with the Cloudinary prefix
+          if (env.links[link]) {
+            return cloudinaryPrefix + env.links[link];
+          }
+          return link;
+        }
+      });
+    }
+
+    return content;
+  });
 
   return {
     dir: {
