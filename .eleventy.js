@@ -2,10 +2,6 @@ const util = require("util");
 
 module.exports = function (eleventyConfig) {
 
-  eleventyConfig.addFilter("dump", (obj) => {
-    return util.inspect(obj, { showHidden: false, depth: null, colors: false });
-  });
-
   // configure markdown-it (and set it as your markdown processor for consistency)
   const md = require('markdown-it')({
     html: true,
@@ -16,24 +12,16 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.setLibrary('md', md);
   eleventyConfig.addFilter('markdownify', str => md.render(str));
 
-  eleventyConfig.addTransform('modifyMarkdownImages', (content, outputPath) => {
-    if (outputPath && outputPath.endsWith('.html')) {
-      // Define your Cloudinary prefix
-      const cloudinaryPrefix = 'https://res.clodinary.com/flagstafffrenzy/image/fetch/f_auto,c_limit,w_800,h_600/';
+  const cloudinaryPrefix = 'https://res.cloudinary.com/flagstafffrenzy/image/fetch/f_auto/c_limit,w_1000,h_800,g_center/';
 
-      // Modify content using markdown-it to add the prefix to image URLs
-      content = md.render(content, {
-        replaceLink: function(link, env) {
-          // Check if the link is an image and modify it with the Cloudinary prefix
-          if (env.links[link]) {
-            return cloudinaryPrefix + env.links[link];
-          }
-          return link;
-        }
-      });
-    }
+  // Define the custom filter within your 11ty config
+  eleventyConfig.addFilter('prependCloudinaryURL', function(content) {
+    // Use a regular expression to search and modify image src attributes
+    const modifiedContent = content.replace(/<img src="([^"]+)"/g, (match, src) => {
+      return `<img src="${cloudinaryPrefix}${src}"`;
+    });
 
-    return content;
+    return modifiedContent;
   });
 
   return {

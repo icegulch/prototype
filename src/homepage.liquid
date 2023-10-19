@@ -3,22 +3,9 @@ permalink: /
 layout: base.liquid
 ---
 
-{% assign sortedPosts = collections.posts | sort:"data.created_at" | reverse %}
-{% for post in sortedPosts %}
-{% if forloop.first %}
-  <ul style="list-style: none;padding-left:0;display:grid;gap:max(5vh,3rem)">
-{% endif %}
-    <li id="{{ post.data.id }}">
-      <time pubdate="{{ post.created_at }}" style="font-size:0.85rem;text-transform:uppercase;letter-spacing:0.025rem;">
-        {{ post.data.author }} on {{ post.data.created_at | date: "%a, %b %-d '%y @ %H:%M" }} UTC
-      </time>
-      {% if post.content %}
-      <div class="message">
-        {{ post.content | markdownify }}
-      </div>
-    {% endif %}
-    </li>
-{% if forloop.last %}
-  </ul>
-{% endif %}
+{% for post in posts %}
+  <time>
+    {{ post.created_at | date: "%a, %b %-d '%y @ %H:%M" }}
+  </time>
+  {{ post.message | markdownify | prependCloudinaryURL }}
 {% endfor %}

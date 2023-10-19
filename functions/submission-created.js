@@ -3,38 +3,35 @@ exports.handler = async (event) => {
 
     // Extract form submission data
     const submissionData = JSON.parse(event.body).payload;
-    const id = submissionData.id;
-    const timestamp = submissionData.created_at;
-    const author = submissionData.form_name;
-    const message = submissionData.data.message;
 
-const markdownContent = `---
-id: ${id}
-created_at: ${timestamp}
-author: ${author}
----
-
-${message}
-`;
+    // Prepare the simplified data
+    const simplifiedData = {
+      id: submissionData.id,
+      created_at: submissionData.created_at,
+      author: submissionData.form_name,
+      message: submissionData.data.message,
+    };
 
 
 // GitHub repository information
     const repoOwner = "icegulch";
     const repoName = "prototype";
-    const folderPath = "src/content/posts";
+    const folderPath = "src/_posts/";
     const githubToken = process.env.GITHUB_TOKEN;
     
     const modifiedTimestamp = timestamp.replace(/[:.]/g, "-");
-    const filename = `${modifiedTimestamp}-${author}.md`;
+    const filename = `${modifiedTimestamp}-${author}.json`;
     
-    // Encode the Markdown content
-    const content = Buffer.from(markdownContent).toString("base64");
-    const githubAPI = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${folderPath}/${filename}`;
-    console.log('fucking tweat: ', githubAPI);
+    // Encode the content to base64
+    const newContent = Buffer.from(
+      JSON.stringify(simplifiedData, null, 2),
+      'utf-8'
+    ).toString('base64');
+
 
     const fetch = await import('node-fetch');
     const addContent = await fetch.default(
-      `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${folderPath}/${filename}`,
+      `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${folderPath}${filename}`,
       {
         method: "PUT",
         headers: {
@@ -43,7 +40,7 @@ ${message}
         },
         body: JSON.stringify({
           message: `Adding new post ${filename}`,
-          content: content,
+          content: newContent,
           sha: null, // Pass null to create a new file
         }),
       }
