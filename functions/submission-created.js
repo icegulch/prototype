@@ -23,13 +23,13 @@ ${message}
     const repoName = "prototype";
     const folderPath = "src/content/posts/";
     const githubToken = process.env.GITHUB_TOKEN;
-    console.log('fucking shit1:', githubToken);
     
     const modifiedTimestamp = timestamp.replace(/[:.]/g, "-");
     const filename = `${modifiedTimestamp}-${author}.md`;
     
     // Encode the Markdown content
     const content = Buffer.from(markdownContent).toString("base64");
+    console.log('fucking shit1:', content);
 
     const fetch = await import('node-fetch');
     const addContent = await fetch.default(
@@ -54,7 +54,7 @@ ${message}
 
     return {
       statusCode: 200,
-      body: JSON.stringify({ message: 'Form submitted and posts.json updated' }),
+      body: JSON.stringify({ message: 'Form submitted and new file added' }),
     };
   } catch (error) {
     return {
