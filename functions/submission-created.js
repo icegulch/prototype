@@ -23,15 +23,14 @@ ${message}
     const repoName = "prototype";
     const folderPath = "src/content/posts/";
     const githubToken = process.env.GITHUB_TOKEN;
+    console.log('fucking shit1', repoOwner);
     
     const modifiedTimestamp = timestamp.replace(/[:.]/g, "-");
+    console.log('fucking shit2', modifiedTimestamp);
     const filename = `${modifiedTimestamp}-${author}.md`;
     
     // Encode the Markdown content
     const content = Buffer.from(markdownContent).toString("base64");
-
-    console.log('fucking shit', filename);
-    console.log('fucking mfer', content);
 
     // Update the individual Markdown file on GitHub
     const updateResponse = await fetch(
