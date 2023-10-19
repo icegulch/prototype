@@ -21,7 +21,7 @@ ${message}
 // GitHub repository information
     const repoOwner = "icegulch";
     const repoName = "prototype";
-    const folderPath = "src/content/posts/";
+    const folderPath = "src/content/posts";
     const githubToken = process.env.GITHUB_TOKEN;
     
     const modifiedTimestamp = timestamp.replace(/[:.]/g, "-");
