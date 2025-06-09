@@ -1,0 +1,27 @@
+name: Photo Upload
+description: Upload a photo with caption and associate it with a trail day
+title: "Photo – YYYY-MM-DD – [Short Caption]"
+labels: [photo, ct-2025]
+body:
+  - type: input
+    id: date
+    attributes:
+      label: Date
+      description: Date this photo was taken
+      placeholder: YYYY-MM-DD
+    validations:
+      required: true
+  - type: textarea
+    id: caption
+    attributes:
+      label: Caption
+      description: A short description of the image (what, where, when)
+      placeholder: "Black bear watching from tree line near mile 6"
+    validations:
+      required: true
+  - type: markdown
+    attributes:
+      value: |
+        **Upload your image below using drag and drop or the file picker.**  
+        GitHub will host it automatically.  
+        Make sure to press **Submit** after upload completes.
